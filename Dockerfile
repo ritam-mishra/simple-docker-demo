@@ -1,21 +1,18 @@
+# Use official slim Python image
 FROM python:3.10-slim
 
-# Working directory
-
+# Set working directory
 WORKDIR /app
 
-# Copy src code to container
+# Copy and install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . .
+# Copy app source
+COPY app.py .
 
-# Run the build commands
-
-RUN pip install -r requirements.txt
-
-# expose port 5000
-
+# Expose port Flask will run on
 EXPOSE 5000
 
-# serve the app / run the app (keep it running)
-
-CMD ["python","app.py"]
+# Run the Flask app
+CMD ["python", "app.py"]
